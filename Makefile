@@ -7,15 +7,15 @@
 #
 ################################################################################
 # \copyright
-# Copyright 2018-2020 Cypress Semiconductor Corporation
+# Copyright 2018-2021, Cypress Semiconductor Corporation (an Infineon company)
 # SPDX-License-Identifier: Apache-2.0
-#
+# 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-#
+# 
 #     http://www.apache.org/licenses/LICENSE-2.0
-#
+# 
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,17 +34,17 @@
 # configurations. If TARGET is manually edited, ensure TARGET_<BSP>.mtb with a 
 # valid URL exists in the application, run 'make getlibs' to fetch BSP contents
 # and update or regenerate launch configurations for your IDE.
-TARGET=CY8CKIT-149
+TARGET=CY8CKIT-041S-MAX
 
 # Name of application (used to derive name of final linked file).
 # 
 # If APPNAME is edited, ensure to update or regenerate launch 
 # configurations for your IDE.
-APPNAME=mtb-example-psoc4-tcpwm
+APPNAME=mtb-example-psoc4-tcpwm-interrupt
 
 # Name of toolchain to use. Options include:
 #
-# GCC_ARM -- GCC 7.2.1, provided with ModusToolbox IDE
+# GCC_ARM -- GCC provided with ModusToolbox IDE
 # ARM     -- ARM Compiler (must be installed separately)
 # IAR     -- IAR Compiler (must be installed separately)
 #
@@ -96,6 +96,9 @@ INCLUDES=
 
 # Add additional defines to the build process (without a leading -D).
 DEFINES= 
+
+# Select softfp or hardfp floating point. Default is softfp.
+VFP_SELECT=
 
 # Additional / custom C compiler flags.
 #
@@ -178,7 +181,7 @@ CY_TOOLS_PATHS+=
 CY_TOOLS_DIR=$(lastword $(sort $(wildcard $(CY_TOOLS_PATHS))))
 
 ifeq ($(CY_TOOLS_DIR),)
-$(error Unable to find any of the available CY_TOOLS_PATHS -- $(CY_TOOLS_PATHS))
+$(error Unable to find any of the available CY_TOOLS_PATHS -- $(CY_TOOLS_PATHS). On Windows, use forward slashes.)
 endif
 
 $(info Tools Directory: $(CY_TOOLS_DIR))

@@ -1,28 +1,30 @@
 /******************************************************************************
-* File Name:  main.c
+* File Name:   main.c
 *
-* Description:  This is the source code for the PSoC 4 MCU TCPWM Interrupt 
-*               example
+* Description: This is the source code for the PSoC 4 MCU TCPWM Interrupt 
+*              example for ModusToolbox.
 *
-* Related Document: See Readme.md
+* Related Document: See README.md
+*
 *
 *******************************************************************************
-* (c) 2020, Cypress Semiconductor Corporation. All rights reserved.
-*******************************************************************************
-* This software, including source code, documentation and related materials
-* ("Software"), is owned by Cypress Semiconductor Corporation or one of its
-* subsidiaries ("Cypress") and is protected by and subject to worldwide patent
-* protection (United States and foreign), United States copyright laws and
-* international treaty provisions. Therefore, you may use this Software only
-* as provided in the license agreement accompanying the software package from
-* which you obtained this Software ("EULA").
+* Copyright 2020-2021, Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
 *
+* This software, including source code, documentation and related
+* materials ("Software") is owned by Cypress Semiconductor Corporation
+* or one of its affiliates ("Cypress") and is protected by and subject to
+* worldwide patent protection (United States and foreign),
+* United States copyright laws and international treaty provisions.
+* Therefore, you may use this Software only as provided in the license
+* agreement accompanying the software package from which you
+* obtained this Software ("EULA").
 * If no EULA applies, Cypress hereby grants you a personal, non-exclusive,
-* non-transferable license to copy, modify, and compile the Software source
-* code solely for use in connection with Cypress's integrated circuit products.
-* Any reproduction, modification, translation, compilation, or representation
-* of this Software except as specified above is prohibited without the express
-* written permission of Cypress.
+* non-transferable license to copy, modify, and compile the Software
+* source code solely for use in connection with Cypress's
+* integrated circuit products.  Any reproduction, modification, translation,
+* compilation, or representation of this Software except as specified
+* above is prohibited without the express written permission of Cypress.
 *
 * Disclaimer: THIS SOFTWARE IS PROVIDED AS-IS, WITH NO WARRANTY OF ANY KIND,
 * EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, NONINFRINGEMENT, IMPLIED
@@ -33,37 +35,33 @@
 * not authorize its products for use in any products where a malfunction or
 * failure of the Cypress product may reasonably be expected to result in
 * significant property damage, injury or death ("High Risk Product"). By
-* including Cypress's product in a High Risk Product, the manufacturer of such
-* system or application assumes all risk of such use and in doing so agrees to
-* indemnify Cypress against all liability.
+* including Cypress's product in a High Risk Product, the manufacturer
+* of such system or application assumes all risk of such use and in doing
+* so agrees to indemnify Cypress against all liability.
 *******************************************************************************/
 
-
-
-/* Header file includes */
 #include "cy_pdl.h"
 #include "cybsp.h"
 
+/*******************************************************************************
+* Macros
+*******************************************************************************/
 /* Timer period in milliseconds */
 #define TIMER_PERIOD_MSEC   1000U
 
 /*******************************************************************************
- * Function Name: Timer_Interrupt_Handler
- ********************************************************************************
- *
- * Summary: Handler function for the timer interrupt that simply toggles the LED.
- *
- * Parameters:
- *  None
- *
- * Return:
- *  None
- *
- * Side Effects:
- *  None
- *
- *******************************************************************************/
-
+* Function Name: Timer_Interrupt_Handler
+********************************************************************************
+* Summary: 
+* Handler function for the timer interrupt that simply toggles the LED.
+*
+* Parameters:
+*  None
+*
+* Return:
+*  None
+*
+*******************************************************************************/
 void timer_interrupt_handler(void)
 {
     /* Clear the terminal count interrupt */
@@ -73,17 +71,22 @@ void timer_interrupt_handler(void)
     Cy_GPIO_Inv(CYBSP_USER_LED1_PORT, CYBSP_USER_LED1_NUM);
 }
 
-
 /*******************************************************************************
- * Function Name: main
- *******************************************************************************
- *
- *  The main function performs the following actions:
- *   1. Initializes the BSP
- *   2. Calls the function to set up the TCPWM Counter
- *   3. Calls the function to set up the interrupt on Terminal Count
- *
- ******************************************************************************/
+* Function Name: main
+*******************************************************************************
+* Summary:
+* The main function performs the following actions:
+*    1. Initializes the BSP
+*    2. Calls the function to set up the TCPWM Counter
+*    3. Calls the function to set up the interrupt on terminal count
+*
+* Parameters:
+*  void
+*
+* Return:
+*  int
+*
+******************************************************************************/
 int main(void)
 {
     cy_rslt_t result;
@@ -100,8 +103,8 @@ int main(void)
      */
     cy_stc_sysint_t intrCfg =
     {
-       /*.intrSrc =*/ CYBSP_TIMER_IRQ, /* Interrupt source is Timer interrupt */
-       /*.intrPriority =*/ 3UL   /* Interrupt priority is 3 */
+        /*.intrSrc =*/ CYBSP_TIMER_IRQ,    /* Interrupt source is Timer interrupt */
+        /*.intrPriority =*/ 3UL            /* Interrupt priority is 3 */
     };
 
     result = Cy_SysInt_Init(&intrCfg, timer_interrupt_handler);
@@ -116,9 +119,8 @@ int main(void)
     /* Enable global interrupts */
     __enable_irq();
 
-    /* Start the TCPWM component in timer/counter mode. The return value of the
-     * function indicates whether the arguments are valid or not. It is not used
-     * here for simplicity.
+    /* Initialize the TCPWM component in timer/counter mode. The return value of the
+     * function indicates whether the arguments are valid or not.
      */
     result = Cy_TCPWM_Counter_Init(CYBSP_TIMER_HW, CYBSP_TIMER_NUM, &CYBSP_TIMER_config);
     if(result != CY_TCPWM_SUCCESS)
